@@ -25,7 +25,8 @@
                 <div class="card card-body"> 
                     <!-- tarjeta de trabajo -->
                     <h3>Insertar nuevo perro</h3>
-                  <form action="SvPerro" method="POST">         
+                    <!-- Enctype sirve para subir archivos-->
+                  <form action="SvPerro" method="POST" enctype="multipart/form-data" > 
                       <!-- Input para el nombre-->
                     <div class="input-group mb-3">
                       <label class="input-group-text" for="nombre">Nombre:</label>
@@ -39,7 +40,7 @@
                       <!-- Input para la foto-->
                       <div class="input-group mb-3">
                       <label class="input-group-text" for="imagen">Imagen:</label>
-                      <input type="text" name="imagen" class="form-control"  >
+                      <input type="file" name="imagen" class="form-control"  >
                     </div>
                       <!-- Input para los puntos-->                   
                           <div class="input-group mb-3">
@@ -104,7 +105,7 @@
                                 <td><%= perro.getEdad() %></td>
                                 <td>
                                 <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
-                                <i class="fas fa-eye"></i> <!-- Icono para vista -->
+                                <a href="SvPerro?id=<%= perro.getNombre() %>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
                                 <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
                                 <i class="fas fa-trash-alt"></i> <!-- Icono para borrar -->
 
@@ -121,7 +122,23 @@
                </div>  
             </div>    
         
-
+<div class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
         
         
         

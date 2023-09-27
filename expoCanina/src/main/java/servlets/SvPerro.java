@@ -10,21 +10,59 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.umariana.mundo.Perro;
 import com.umariana.mundo.ExposicionPerros;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Part;
 
 @WebServlet(name = "SvPerro", urlPatterns = {"/SvPerro"})
+@MultipartConfig
 public class SvPerro extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Obtener la parte del archivo      
+        Part imagenPart = request.getPart("imagen");
+        System.out.println("imagenPart" + imagenPart);
+        
+        // Nombre original del archivo
+        String fileName = imagenPart.getSubmittedFileName();
+        System.out.println("fileName: " + fileName);
+        
+        // Directorio donde se almacenara el archivo
+        String uploadDirectory = getServletContext().getRealPath("imagenes");
+        System.out.println("uploadDirectory: " + uploadDirectory);
+        
+        //Ruta completa del archivo
+        String filePath = uploadDirectory + File.separator + fileName;
+        System.out.println("filePath: " + filePath);
+        
+        //Guardar el archivo en el sistemaa de archivos
+        try (InputStream input = imagenPart.getInputStream();
+             OutputStream output = new FileOutputStream (filePath)) {
+            
+            byte [] buffer = new byte [1024];
+            int length;
+            while ((length = input.read(buffer)) > 0) {
+                output.write(buffer,0,length);
+            }
+        }
+        
+        
         // Obtener los parámetros del formulario
         String nombre = request.getParameter("nombre");
         String raza = request.getParameter("raza");
-        String imagen = request.getParameter("imagen");
+        String imagen = fileName;
         String puntosStr = request.getParameter("puntos");
         String edadStr = request.getParameter("edad");
+        
+        
 
         // Try n Catch para los datos además de un casteo para puntos y edad
         try {
