@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.umariana.mundo.Perro;
 import com.umariana.mundo.ExposicionPerros;
+import static com.umariana.mundo.ExposicionPerros.darPerros;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -22,6 +23,43 @@ import javax.servlet.http.Part;
 @WebServlet(name = "SvPerro", urlPatterns = {"/SvPerro"})
 @MultipartConfig
 public class SvPerro extends HttpServlet {
+    
+    public void init() throws ServletException{
+    }
+    
+    
+    private Perro buscarPerroPorNombre (String nombre){
+        for (Perro perro : darPerros) {
+            if (perro.getNombre().equals(nombre)) {
+                return perro;
+            }
+        }
+        return null;
+    }
+    
+    
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String nombre = request.getParameter("nombre");
+        Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
+        if (perro != null) {
+            // Genera la respuesta HTML con los detalles del perro
+            String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>" +
+                               "<p>Raza: " + perro.getRaza() + "</p>" +
+                               "<p>Puntos: " + perro.getPuntos() + "</p>" +
+                               "<p>Edad (meses): " + perro.getEdad() + "</p>" +
+                               "<img src='imagenes/" + perro.getImagen() + "' alt='" + perro.getNombre() + "' width='100%'/>";
+            response.setContentType("text/html");
+            response.getWriter().write(perroHtml);
+        } else {
+            // Maneja el caso en el que no se encuentra el perro
+            response.setContentType("text/plain");
+            response.getWriter().write("Perro no encontrado");
+        }
+    }
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -86,7 +124,7 @@ public class SvPerro extends HttpServlet {
             request.setAttribute("misPerros", misPerros);
 
             // Redireccionar a la página web agregarPerro
-            request.getRequestDispatcher("agregarPerro.jsp").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             // Manejo de la excepción si los valores de puntos o edad no son números válidos
             e.printStackTrace();

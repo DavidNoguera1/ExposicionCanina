@@ -9,7 +9,7 @@ public class ExposicionPerros {
     
     // Creamos la lista darPerros y la definimos 
     // La definimos como "sttatic" para que este disponible en el todo el programa
-    private static ArrayList<Perro> darPerros = new ArrayList<>();
+    public static ArrayList<Perro> darPerros = new ArrayList<>();
     
     // Método para guardar la lista de perros en un archivo perros.ser
     public static void guardarPerro(ArrayList<Perro> perros, ServletContext context) throws IOException {
