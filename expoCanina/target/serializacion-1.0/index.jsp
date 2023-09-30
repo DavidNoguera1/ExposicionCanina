@@ -107,7 +107,8 @@
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
                             <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
-                            <a href="SvPerro?eliminarNombre=<%= perro.getNombre() %>" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>  <!-- Icono para borrar -->
+                            <a href="index.jsp" onclick="eliminarPerro('<%= perro.getNombre() %>');" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+
 
                         </td>
 
@@ -162,6 +163,18 @@
             }
         });
     });
+    
+    function eliminarPerro(nombre) {
+    // Realiza una solicitud AJAX para eliminar el perro
+    $.ajax({
+        type: "GET",
+        url: "SvPerro?eliminarNombre=" + nombre,
+        success: function (response) {
+            // Redirige a index.jsp después de eliminar el perro
+            window.location.href = "index.jsp";
+        }
+    });
+}
 
 </script>
 

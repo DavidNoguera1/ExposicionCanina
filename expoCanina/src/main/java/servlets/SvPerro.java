@@ -41,18 +41,6 @@ public class SvPerro extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String nombrePerroAEliminar = request.getParameter("eliminarNombre");
-        ExposicionPerros.eliminarPerro(nombrePerroAEliminar);
-
-        // Guarda la lista actualizada de perros en el archivo.ser
-        ServletContext servletContext = getServletContext();
-        ExposicionPerros.guardarPerro(ExposicionPerros.darPerros, servletContext);
-
-        // Redirecciona a la página web index.jsp
-        response.sendRedirect("index.jsp");
-        
-        
-
         String nombre = request.getParameter("nombre");
         Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
         if (perro != null) {
@@ -69,6 +57,15 @@ public class SvPerro extends HttpServlet {
             response.setContentType("text/plain");
             response.getWriter().write("Perro no encontrado");
         }
+        
+        String nombrePerroAEliminar = request.getParameter("eliminarNombre");
+        ExposicionPerros.eliminarPerro(nombrePerroAEliminar);
+
+        // Guarda la lista actualizada de perros en el archivo.ser
+        ServletContext servletContext = getServletContext();
+        ExposicionPerros.guardarPerro(ExposicionPerros.darPerros, servletContext);
+        
+        
     }
 
     @Override
