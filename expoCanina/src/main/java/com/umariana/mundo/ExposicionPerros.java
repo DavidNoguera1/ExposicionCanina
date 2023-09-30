@@ -53,5 +53,22 @@ public class ExposicionPerros {
         }
         return darPerros;
     }
+    
+   public static void eliminarPerro(String nombre) {
+        Perro perroAEliminar = null;
+
+        //Busca al perro dentro del array existente
+        for (Perro perro : darPerros) {
+            if (perro.getNombre().equals(nombre)) {
+                perroAEliminar = perro;
+                break;
+            }
+        }
+
+        //Si se encuentra al Perro se lo elimina del array
+        if (perroAEliminar != null) {
+            darPerros.remove(perroAEliminar);
+        }
+    }
 }
 

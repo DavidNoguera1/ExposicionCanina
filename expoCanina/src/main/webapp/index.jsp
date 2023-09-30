@@ -65,7 +65,7 @@
                         <input type="text" name="edad"  class="form-control"   >
                     </div>
                     <!-- Boton para agregar perros --> 
-                    <input type="submit" value="Agregar perro" class ="form-control"</>
+                    <input type="submit" value="Agregar perro" class ="form-control"/>
                 </form><br>
 
 
@@ -107,7 +107,7 @@
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
                             <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
-                            <i class="fas fa-trash-alt"></i> <!-- Icono para borrar -->
+                            <a href="SvPerro?eliminarNombre=<%= perro.getNombre() %>" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>  <!-- Icono para borrar -->
 
                         </td>
 
