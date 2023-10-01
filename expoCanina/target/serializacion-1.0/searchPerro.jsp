@@ -1,7 +1,7 @@
 <%-- 
-    Document   : agregarPerro
-    Created on : 20/09/2023, 4:50:03 p. m.
-    Author     : Sistemas (Grupo Portilla, Noguera y Bolaños)
+    Document   : searchPerro
+    Created on : 1/10/2023, 10:39:45 a. m.
+    Author     : David Noguera
 --%>
 
 <%@page import="java.util.ArrayList"%>
@@ -10,7 +10,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<%@include file= "templates/header.jsp" %>
+<%@include file="templates/header.jsp"%>
 
 
 <!-- Empleamos una NavBar de Bootstrap para evitar interferencias de la imagen -->
@@ -19,6 +19,7 @@
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
     <div class="container">
         <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,12 +48,12 @@
             </form>
         </div>
     </div>
+
 </nav>
-
-
 
 <div class="container p-4"> <!-- clase contenedora -->
     <div class="row">
+        <!-- Copia el formulario de inserción de perros aquí -->
         <div class="col-md-4">  <!-- clase division por 4 columnas -->
             <div class="card card-body"> 
                 <!-- tarjeta de trabajo -->
@@ -101,12 +102,10 @@
                 </form><br>
 
 
-                <a href="index.jsp">Volver al Menu</a> 
+                <a href="index.jsp">Volver a la lista </a> 
             </div>    
         </div> 
         <!-- Tabla de datos -->
-
-
         <div class="col-md-8">
             <table class="table table-bordered table-dark">
                 <thead>
@@ -121,31 +120,35 @@
                 </thead>
                 <tbody>
                     <%
-                        // Obtener array list de la solicitud utilizando el método cargarPerros
-                        ServletContext context = request.getServletContext();
-                        ArrayList<Perro> darPerros = ExposicionPerros.cargarPerros(context);
+                        // Obtener el perro buscado por su nombre desde el parámetro "nombre" en la solicitud
+                        String nombreBuscado = request.getParameter("nombre");
+                        // Obtener el array list de la solicitud utilizando el método buscarPerroPorNombre
+                        Perro perroBuscado = ExposicionPerros.buscarPerroPorNombre(nombreBuscado);
 
-                        // Recorrido de la lista y asignacion de los datos en las casillas
-                        if (darPerros != null) {
-                            for (Perro perro : darPerros) {
+                        // Si se encontró un perro con ese nombre, muéstralo en la tabla
+                        if (perroBuscado != null) {
                     %>
                     <tr>
-                        <td><%= perro.getNombre()%></td>
-                        <td><%= perro.getRaza()%></td>
-                        <td><%= perro.getImagen()%></td>
-                        <td><%= perro.getPuntos()%></td>
-                        <td><%= perro.getEdad()%></td>
+                        <td><%= perroBuscado.getNombre()%></td>
+                        <td><%= perroBuscado.getRaza()%></td>
+                        <td><%= perroBuscado.getImagen()%></td>
+                        <td><%= perroBuscado.getPuntos()%></td>
+                        <td><%= perroBuscado.getEdad()%></td>
                         <td>
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
-                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perroBuscado.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
                             <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
-                            <a href="index.jsp" class="btn btn-danger" onclick="confirmarEliminacion('<%= perro.getNombre()%>');"><i class="fas fa-trash-alt"></i></a>
-
+                            <a href="#" class="btn btn-danger" onclick="confirmarEliminacion('<%= perroBuscado.getNombre()%>');"><i class="fas fa-trash-alt"></i></a>
                         </td>
-
                     </tr>
                     <%
-                            }
+                    } else {
+                        // Si no se encontró el perro, muestra un mensaje
+                    %>
+                    <tr>
+                        <td colspan="6">Perro no encontrado</td>
+                    </tr>
+                    <%
                         }
                     %>
                 </tbody> 
@@ -222,6 +225,19 @@
     }
 </script>
 
+<script>
+    //Funcion que muestra una opcion Si/No para borrar el perro
+    function confirmarEliminacion(nombre) {
+        // Muestra un cuadro de diálogo de confirmación
+        var confirmacion = confirm("¿Está seguro de querer eliminar este perro?");
+        if (confirmacion) {
+            // Si el usuario confirma, llama a la función eliminarPerro
+            eliminarPerro(nombre);
+        } else {
+            // Si el usuario cancela, no hace nada y se queda en la página
+        }
+    }
+</script>
 
+<%@include file="templates/fooder.jsp"%>
 
-<%@include file= "templates/fooder.jsp" %>

@@ -41,7 +41,7 @@
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex" action="SvPerro" method="GET"> <!-- Cambia la acción al servlet donde procesas la búsqueda -->
+            <<form class="d-flex" action="searchPerro.jsp" method="GET">
                 <input class="form-control me-2" type="search" name="nombre" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
@@ -141,7 +141,6 @@
                             <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
                             <a href="index.jsp" class="btn btn-danger" onclick="confirmarEliminacion('<%= perro.getNombre()%>');"><i class="fas fa-trash-alt"></i></a>
 
-
                         </td>
 
                     </tr>
@@ -200,27 +199,27 @@
 <script>
     //Funcion que muestra una opcion Si/No para borrar el perro
     function confirmarEliminacion(nombre) {
-    // Muestra un cuadro de diálogo de confirmación
-    if (confirm("¿Está seguro de querer eliminar este perro?")) {
-        // Si el usuario confirma, llama a la función eliminarPerro
-        eliminarPerro(nombre);
+        // Muestra un cuadro de diálogo de confirmación
+        if (confirm("¿Está seguro de querer eliminar este perro?")) {
+            // Si el usuario confirma, llama a la función eliminarPerro
+            eliminarPerro(nombre);
+        }
     }
-}
 </script>
 
 <script>
     //Funcion para eliminar un perro de la tabla
     function eliminarPerro(nombre) {
-    // Realiza una solicitud AJAX para eliminar el perro
-    $.ajax({
-        type: "GET",
-        url: "SvPerro?eliminarNombre=" + nombre,
-        success: function (response) {
-            // Redirige a index.jsp después de eliminar el perro
-            window.location.href = "index.jsp";
-        }
-    });
-}
+        // Realiza una solicitud AJAX para eliminar el perro
+        $.ajax({
+            type: "GET",
+            url: "SvPerro?eliminarNombre=" + nombre,
+            success: function (response) {
+                // Redirige a index.jsp después de eliminar el perro
+                window.location.href = "index.jsp";
+            }
+        });
+    }
 </script>
 
 
