@@ -139,7 +139,7 @@
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
                             <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
-                            <a href="index.jsp" onclick="eliminarPerro('<%= perro.getNombre()%>');" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                            <a href="index.jsp" class="btn btn-danger" onclick="confirmarEliminacion('<%= perro.getNombre()%>');"><i class="fas fa-trash-alt"></i></a>
 
 
                         </td>
@@ -195,20 +195,32 @@
             }
         });
     });
+</script>
 
+<script>
+    //Funcion que muestra una opcion Si/No para borrar el perro
+    function confirmarEliminacion(nombre) {
+    // Muestra un cuadro de diálogo de confirmación
+    if (confirm("¿Está seguro de querer eliminar este perro?")) {
+        // Si el usuario confirma, llama a la función eliminarPerro
+        eliminarPerro(nombre);
+    }
+}
+</script>
+
+<script>
     //Funcion para eliminar un perro de la tabla
     function eliminarPerro(nombre) {
-        // Realiza una solicitud AJAX para eliminar el perro
-        $.ajax({
-            type: "GET",
-            url: "SvPerro?eliminarNombre=" + nombre,
-            success: function (response) {
-                // Redirige a index.jsp después de eliminar el perro
-                window.location.href = "index.jsp";
-            }
-        });
-    }
-
+    // Realiza una solicitud AJAX para eliminar el perro
+    $.ajax({
+        type: "GET",
+        url: "SvPerro?eliminarNombre=" + nombre,
+        success: function (response) {
+            // Redirige a index.jsp después de eliminar el perro
+            window.location.href = "index.jsp";
+        }
+    });
+}
 </script>
 
 
