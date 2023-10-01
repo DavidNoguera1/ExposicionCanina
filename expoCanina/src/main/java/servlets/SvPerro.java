@@ -47,11 +47,13 @@ public class SvPerro extends HttpServlet {
                 response.setContentType("text/html");
                 response.getWriter().write(perroHtml);
                 return; // Finaliza la ejecución del servlet después de mostrar los detalles del perro
+            } else {
+                // Maneja el caso en el que no se encuentra el perro
+                // Maneja el caso en el que no se encuentra el perro
+                response.setContentType("text/plain");
+                response.getWriter().write("Perro no encontrado");
             }
         }
-
-        // Si no se proporciona un nombre de perro en la solicitud o el perro no se encuentra, muestra la página principal
-        request.getRequestDispatcher("index.jsp").forward(request, response);
 
         //Eliminacion de un perro de la tabla
         String nombrePerroAEliminar = request.getParameter("eliminarNombre");
