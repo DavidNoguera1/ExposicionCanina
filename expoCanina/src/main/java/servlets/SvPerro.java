@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.umariana.mundo.Perro;
 import com.umariana.mundo.ExposicionPerros;
+import static com.umariana.mundo.ExposicionPerros.buscarPerroPorNombre;
 import static com.umariana.mundo.ExposicionPerros.darPerros;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,45 +28,39 @@ public class SvPerro extends HttpServlet {
     public void init() throws ServletException {
     }
 
-    //Metodo para buscar un perro por nombre de lista
-    private Perro buscarPerroPorNombre(String nombre) {
-        for (Perro perro : darPerros) {
-            if (perro.getNombre().equals(nombre)) {
-                return perro; // Retorna  el perro si se encuentra
-            }
-        }
-        return null; // Retorna null si no se encuentra el perro
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String nombre = request.getParameter("nombre");
-        Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
-        if (perro != null) {
-            // Genera la respuesta HTML con los detalles del perro
-            String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>"
-                    + "<p>Raza: " + perro.getRaza() + "</p>"
-                    + "<p>Puntos: " + perro.getPuntos() + "</p>"
-                    + "<p>Edad (meses): " + perro.getEdad() + "</p>"
-                    + "<img src='imagenes/" + perro.getImagen() + "' alt='" + perro.getNombre() + "' width='100%'/>";
-            response.setContentType("text/html");
-            response.getWriter().write(perroHtml);
-        } else {
-            // Maneja el caso en el que no se encuentra el perro
-            response.setContentType("text/plain");
-            response.getWriter().write("Perro no encontrado");
+
+        // Verifica si se ha proporcionado un nombre de perro en la solicitud
+        if (nombre != null && !nombre.isEmpty()) {
+            Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
+            if (perro != null) {
+                // Genera la respuesta HTML con los detalles del perro encontrado
+                String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>"
+                        + "<p>Raza: " + perro.getRaza() + "</p>"
+                        + "<p>Puntos: " + perro.getPuntos() + "</p>"
+                        + "<p>Edad (meses): " + perro.getEdad() + "</p>"
+                        + "<img src='imagenes/" + perro.getImagen() + "' alt='" + perro.getNombre() + "' width='100%'/>";
+                response.setContentType("text/html");
+                response.getWriter().write(perroHtml);
+                return; // Finaliza la ejecución del servlet después de mostrar los detalles del perro
+            }
         }
-        
+
+        // Si no se proporciona un nombre de perro en la solicitud o el perro no se encuentra, muestra la página principal
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+
+        //Eliminacion de un perro de la tabla
         String nombrePerroAEliminar = request.getParameter("eliminarNombre");
         ExposicionPerros.eliminarPerro(nombrePerroAEliminar);
 
         // Guarda la lista actualizada de perros en el archivo.ser
         ServletContext servletContext = getServletContext();
         ExposicionPerros.guardarPerro(ExposicionPerros.darPerros, servletContext);
-        
-        
+
     }
 
     @Override
@@ -141,6 +136,5 @@ public class SvPerro extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-    
-   
+
 }

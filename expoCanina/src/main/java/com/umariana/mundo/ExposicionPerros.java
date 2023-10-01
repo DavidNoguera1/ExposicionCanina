@@ -54,6 +54,17 @@ public class ExposicionPerros {
         return darPerros;
     }
     
+    //Metodo para buscar un perro por nombre de lista
+    public static Perro buscarPerroPorNombre(String nombre) {
+        for (Perro perro : darPerros) {
+            if (perro.getNombre().equals(nombre)) {
+                return perro; // Retorna  el perro si se encuentra
+            }
+        }
+        return null; // Retorna null si no se encuentra el perro
+    }
+    
+    //Metodo para eliminar un perro del array
    public static void eliminarPerro(String nombre) {
         Perro perroAEliminar = null;
 
