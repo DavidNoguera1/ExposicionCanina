@@ -62,6 +62,26 @@ public class SvPerro extends HttpServlet {
         // Guarda la lista actualizada de perros en el archivo.ser
         ServletContext servletContext = getServletContext();
         ExposicionPerros.guardarPerro(ExposicionPerros.darPerros, servletContext);
+        
+        
+        //Ordenamiento de los perrso segun la opcion
+        String ordenarCriterio = request.getParameter("ordenar");
+
+        if (ordenarCriterio != null) {
+            // Verifica el criterio seleccionado y llama a ordenarYGuardarPerros
+            if (ordenarCriterio.equals("nombre")) {
+                ExposicionPerros.ordenarYGuardarPerros(getServletContext(), "nombre");
+            } else if (ordenarCriterio.equals("puntos")) {
+                ExposicionPerros.ordenarYGuardarPerros(getServletContext(), "puntos");
+            } else if (ordenarCriterio.equals("edad")) {
+                ExposicionPerros.ordenarYGuardarPerros(getServletContext(), "edad");
+            }
+
+            // Redirecciona nuevamente a la página desde donde se hizo la solicitud
+            String referer = request.getHeader("Referer");
+            response.sendRedirect(referer != null ? referer : "index.jsp");
+            return;
+        }
 
     }
 
