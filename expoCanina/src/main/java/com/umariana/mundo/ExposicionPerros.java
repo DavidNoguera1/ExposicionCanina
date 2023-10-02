@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import javax.servlet.ServletContext;
+import javax.servlet.http.Part;
 
 public class ExposicionPerros {
 
@@ -162,4 +163,41 @@ public class ExposicionPerros {
         return perroMasViejo;
     }
 
+    public static boolean editarPerro(String nombre, String raza, int puntos, int edad, Part imagenPart, ServletContext context) {
+        for (Perro perro : darPerros) {
+            if (perro.getNombre().equals(nombre)) {
+                // Si encontramos el perro por nombre, actualizamos sus datos
+                perro.setRaza(raza);
+                perro.setPuntos(puntos);
+                perro.setEdad(edad);
+
+                try {
+                    // Guardar la nueva imagen si se proporciona
+                    if (imagenPart != null && imagenPart.getSize() > 0) {
+                        String fileName = imagenPart.getSubmittedFileName();
+                        String uploadDirectory = context.getRealPath("imagenes");
+                        String filePath = uploadDirectory + File.separator + fileName;
+
+                        try (InputStream input = imagenPart.getInputStream(); OutputStream output = new FileOutputStream(filePath)) {
+                            byte[] buffer = new byte[1024];
+                            int length;
+                            while ((length = input.read(buffer)) > 0) {
+                                output.write(buffer, 0, length);
+                            }
+                        }
+
+                        perro.setImagen(fileName);
+                    }
+
+                    // Guardar la lista actualizada de perros en el archivo
+                    guardarPerro(darPerros, context);
+                    return true; // La edición fue exitosa
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Error al guardar los datos de perro: " + e.getMessage());
+                }
+            }
+        }
+        return false; // Si no se encontró el perro por nombre, la edición no se realiza
+    }
 }

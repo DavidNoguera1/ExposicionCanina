@@ -1,5 +1,6 @@
+com\umariana\mundo\Perro.class
 servlets\SvPerro.class
 com\umariana\mundo\resources\JavaEE8Resource.class
 com\umariana\mundo\ExposicionPerros.class
 com\umariana\mundo\JAXRSConfiguration.class
-com\umariana\mundo\Perro.class
+servlets\SvEditarPerro.class

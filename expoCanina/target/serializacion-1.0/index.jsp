@@ -103,7 +103,7 @@
                         <td>
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
-                            <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal<%= perro.getNombre() %>"><i class="fas fa-pencil-alt"></i></a>
+                            <a href="#" class="btn btn-success edit-button" data-bs-toggle="modal" data-bs-target="#editarModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-pencil-alt"></i></a>
                             <a href="index.jsp" class="btn btn-danger" onclick="confirmarEliminacion('<%= perro.getNombre()%>');"><i class="fas fa-trash-alt"></i></a>
 
                         </td>
@@ -141,35 +141,103 @@
 
 
 <!-- Ventana Modal para Editar -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Perro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="SvEditarPerro" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="perro-edit-nombre" name="perro-edit-nombre" value="">                                           
+                    <!-- Input para la raza-->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="raza">Raza:</label>
+                        <input type="text" name="raza" class="form-control">
+                    </div>
+                    <!-- Input para la foto-->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="imagen">Imagen:</label>
+                        <input type="file" name="imagen" class="form-control"  >
+                    </div>
+                    <!-- Input para los puntos-->                   
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="puntos">Puntos:</label>
+                        <select name="puntos" class="form-select" >
+                            <option selected>Selecione...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>                          
+                        </select>                  
+                    </div>
+                    <!-- Input para la edad-->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="edad">Edad:</label>
+                        <input type="text" name="edad"  class="form-control"   >
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
+    $(document).ready(function () {
+        $('.edit-button').click(function () {
+            var nombrePerro = $(this).data('nombre');
+            $('#perro-edit-nombre').val(nombrePerro);
+        });
+    });
+</script>
+
+
+<script>
+
+
     // funcion para mostrar los datos en la ventana modal
     $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Botón que desencadenó el evento
-        var nombre = button.data('nombre'); // Obtén el nombre del perro
+        var button = $(event.relatedTarget); // Bot�n que desencaden� el evento
+        var nombre = button.data('nombre'); // Obt�n el nombre del perro
 
         // Realiza una solicitud AJAX al servlet para obtener los detalles del perro por su nombre
         $.ajax({
-            url: 'SvPerro?nombre=' + nombre, // Cambia 'id' por el nombre del parámetro que esperas en tu servlet
+            url: 'SvPerro?nombre=' + nombre, // Cambia 'id' por el nombre del par�metro que esperas en tu servlet
             method: 'GET',
             success: function (data) {
                 // Actualiza el contenido del modal con los detalles del perro
                 $('#perro-details').html(data);
             },
             error: function () {
-                // Maneja errores aquí si es necesario
+                // Maneja errores aqu� si es necesario
                 console.log('Error al cargar los detalles del perro.');
             }
         });
     });
+
+
+
+
 </script>
 
 <script>
     //Funcion que muestra una opcion Si/No para borrar el perro
     function confirmarEliminacion(nombre) {
-        // Muestra un cuadro de diálogo de confirmación
-        if (confirm("¿Está seguro de querer eliminar este perro?")) {
-            // Si el usuario confirma, llama a la función eliminarPerro
+        // Muestra un cuadro de di�logo de confirmaci�n
+        if (confirm("�Est� seguro de querer eliminar este perro?")) {
+            // Si el usuario confirma, llama a la funci�n eliminarPerro
             eliminarPerro(nombre);
         }
     }
@@ -183,7 +251,7 @@
             type: "GET",
             url: "SvPerro?eliminarNombre=" + nombre,
             success: function (response) {
-                // Redirige a index.jsp después de eliminar el perro
+                // Redirige a index.jsp despu�s de eliminar el perro
                 window.location.href = "index.jsp";
             }
         });
