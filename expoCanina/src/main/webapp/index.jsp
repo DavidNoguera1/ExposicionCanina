@@ -14,40 +14,6 @@
 
 
 <!-- Empleamos una NavBar de Bootstrap para evitar interferencias de la imagen -->
-<div class="container-fluid p-0">
-    <img src="imagenes/banner.jpeg" class="img-fluid max-height-100" alt="Banner">
-</div>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Ordenamiento
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="SvPerro?ordenar=nombre">Nombre</a></li>
-                        <li><a class="dropdown-item" href="SvPerro?ordenar=puntos">Puntos</a></li>
-                        <li><a class="dropdown-item" href="SvPerro?ordenar=edad">Edad</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <<form class="d-flex" action="searchPerro.jsp" method="GET">
-                <input class="form-control me-2" type="search" name="nombre" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
-
 
 
 <div class="container p-4"> <!-- clase contenedora -->
@@ -137,7 +103,7 @@
                         <td>
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
-                            <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
+                            <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal<%= perro.getNombre() %>"><i class="fas fa-pencil-alt"></i></a>
                             <a href="index.jsp" class="btn btn-danger" onclick="confirmarEliminacion('<%= perro.getNombre()%>');"><i class="fas fa-trash-alt"></i></a>
 
                         </td>
@@ -172,6 +138,9 @@
         </div>
     </div>
 </div>
+
+
+<!-- Ventana Modal para Editar -->
 
 <script>
     // funcion para mostrar los datos en la ventana modal

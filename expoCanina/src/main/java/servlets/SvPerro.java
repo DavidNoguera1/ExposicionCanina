@@ -62,8 +62,7 @@ public class SvPerro extends HttpServlet {
         // Guarda la lista actualizada de perros en el archivo.ser
         ServletContext servletContext = getServletContext();
         ExposicionPerros.guardarPerro(ExposicionPerros.darPerros, servletContext);
-        
-        
+
         //Ordenamiento de los perrso segun la opcion
         String ordenarCriterio = request.getParameter("ordenar");
 
@@ -81,6 +80,42 @@ public class SvPerro extends HttpServlet {
             String referer = request.getHeader("Referer");
             response.sendRedirect(referer != null ? referer : "index.jsp");
             return;
+        }
+
+        // Obtener al perro con el mayor puntaje
+        Perro perroMayorPuntaje = ExposicionPerros.obtenerPerroMayorPuntaje();
+
+        if (perroMayorPuntaje != null) {
+            // Hacer algo con el perro encontrado, por ejemplo, mostrar sus detalles
+            System.out.println("Perro con el mayor puntaje: " + perroMayorPuntaje.getNombre() + " - Puntos: " + perroMayorPuntaje.getPuntos());
+            response.sendRedirect("ganador.jsp");
+        } else {
+            // Manejar el caso en el que no haya perros en la lista
+            System.out.println("No hay perros en la lista.");
+        }
+        
+        // Obtener al perro con el mayor puntaje
+        Perro perroMenorPuntaje = ExposicionPerros.obtenerPerroMenorPuntaje();
+
+        if (perroMenorPuntaje != null) {
+            // Hacer algo con el perro encontrado, por ejemplo, mostrar sus detalles
+            System.out.println("Perro con el menor puntaje: " + perroMenorPuntaje.getNombre() + " - Puntos: " + perroMayorPuntaje.getPuntos());
+            response.sendRedirect("perdedor.jsp");
+        } else {
+            // Manejar el caso en el que no haya perros en la lista
+            System.out.println("No hay perros en la lista.");
+        }
+        
+        // Obtiene el perro con mayor edad del concurso
+        Perro perroMasViejo = ExposicionPerros.obtenerPerroMasViejo();
+
+        if (perroMasViejo != null) {
+            // Hacer algo con el perro encontrado, por ejemplo, mostrar sus detalles
+            System.out.println("Perro con la mayor edad es: " + perroMasViejo.getNombre() + " - Edad: " + perroMasViejo.getEdad());
+            response.sendRedirect("perroMasViejo.jsp");
+        } else {
+            // Manejar el caso en el que no haya perros en la lista
+            System.out.println("No hay perros en la lista.");
         }
 
     }

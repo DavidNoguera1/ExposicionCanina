@@ -12,8 +12,6 @@ public class ExposicionPerros {
     // La definimos como "sttatic" para que este disponible en el todo el programa
     public static ArrayList<Perro> darPerros = new ArrayList<>();
 
-    
-
     // Método para guardar la lista de perros en un archivo perros.ser
     public static void guardarPerro(ArrayList<Perro> perros, ServletContext context) throws IOException {
 
@@ -84,10 +82,7 @@ public class ExposicionPerros {
             darPerros.remove(perroAEliminar);
         }
     }
-    
-    
-    
-    
+
     //Metodo para ordenar perros por puntos de mayor a menor
     public static void ordenarPorPuntos() {
         darPerros.sort(Comparator.comparingInt(Perro::getPuntos).reversed());
@@ -102,7 +97,7 @@ public class ExposicionPerros {
     public static void ordenarPorNombre() {
         darPerros.sort(Comparator.comparing(Perro::getNombre));
     }
-    
+
     //Metodo empleado para ordenar y guardar solo cuando se emplee una de las anteriores opciones
     public static void ordenarYGuardarPerros(ServletContext context, String criterio) throws IOException {
         if (criterio.equals("puntos")) {
@@ -114,6 +109,57 @@ public class ExposicionPerros {
         }
 
         guardarPerro(darPerros, context);
+    }
+
+    //Metodo para obetner el perro con mayor puntaje
+    public static Perro obtenerPerroMayorPuntaje() {
+        if (darPerros.isEmpty()) {
+            return null; // Retorna null si la lista está vacía
+        }
+
+        Perro perroMayorPuntaje = darPerros.get(0); // Suponemos que el primer perro tiene el puntaje máximo
+
+        for (Perro perro : darPerros) {
+            if (perro.getPuntos() > perroMayorPuntaje.getPuntos()) {
+                perroMayorPuntaje = perro; // Si encontramos un perro con un puntaje mayor, actualizamos el perro mayor
+            }
+        }
+
+        return perroMayorPuntaje;
+    }
+
+    //Metodo para obtener el perro con menor Puntaje
+    public static Perro obtenerPerroMenorPuntaje() {
+        if (darPerros.isEmpty()) {
+            return null; // Retorna null si la lista está vacía
+        }
+
+        Perro perroMenorPuntaje = darPerros.get(0); // Suponemos que el primer perro tiene el puntaje mínimo
+
+        for (Perro perro : darPerros) {
+            if (perro.getPuntos() < perroMenorPuntaje.getPuntos()) {
+                perroMenorPuntaje = perro; // Si encontramos un perro con un puntaje menor, actualizamos el perro con el menor puntaje
+            }
+        }
+
+        return perroMenorPuntaje;
+    }
+
+    //Metodo para obetner el perro con mayor puntaje
+    public static Perro obtenerPerroMasViejo() {
+        if (darPerros.isEmpty()) {
+            return null; // Retorna null si la lista está vacía
+        }
+
+        Perro perroMasViejo = darPerros.get(0); // Suponemos que el primer perro es el más viejo
+
+        for (Perro perro : darPerros) {
+            if (perro.getEdad() > perroMasViejo.getEdad()) {
+                perroMasViejo = perro; // Si encontramos un perro más viejo, actualizamos el perro más viejo
+            }
+        }
+
+        return perroMasViejo;
     }
 
 }
