@@ -137,7 +137,7 @@
                         <td>
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
-                            <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edicionModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-pencil-alt"></i></a>
                             <a href="index.jsp" class="btn btn-danger" onclick="confirmarEliminacion('<%= perro.getNombre()%>');"><i class="fas fa-trash-alt"></i></a>
 
                         </td>
@@ -173,6 +173,63 @@
     </div>
 </div>
 
+
+<-<!-- Tabla modal de edicion -->
+<div class="modal fade" id="edicionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Perro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="SvPerro" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="accion" value="editar"> <!-- Agrega un campo oculto para identificar la acción -->
+                    <input type="hidden" name="nombre_original" id="nombre_original"> <!-- Campo oculto para el nombre original del perro -->
+                    <!-- Los campos de edición: raza, edad, imagen, puntos -->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="raza_edit">Raza:</label>
+                        <input type="text" name="raza_edit" id="raza_edit" class="form-control">
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="imagen_edit">Imagen:</label>
+                        <input type="file" name="imagen_edit" class="form-control"  >
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="puntos_edit">Puntos:</label>
+                        <select name="puntos_edit" id="puntos_edit" class="form-select">
+                            <option selected>Selecione...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>  
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="edad_edit">Edad:</label>
+                        <input type="text" name="edad_edit" id="edad_edit" class="form-control">
+                    </div>
+                    <!-- Botón para guardar la edición -->
+                    <input type="submit" value="Guardar Edición" class="btn btn-primary">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <script>
     // funcion para mostrar los datos en la ventana modal
     $('#exampleModal').on('show.bs.modal', function (event) {
@@ -194,6 +251,41 @@
         });
     });
 </script>
+
+
+<script>
+    //Funcion ventana modal de edicion
+    $('#edicionModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que desencadenó el evento
+        var nombre = button.data('nombre'); // Obtén el nombre del perro
+
+        // Actualiza el campo oculto con el nombre original del perro
+        $('#nombre_original').val(nombre);
+
+        // Realiza una solicitud AJAX para obtener los detalles del perro por su nombre
+        $.ajax({
+            url: 'SvPerro?accion=editar&nombre=' + nombre, // Cambia 'id' por el nombre del parámetro que esperas en tu servlet
+            method: 'GET',
+            success: function (data) {
+                // Analiza la respuesta JSON para obtener los datos del perro
+                var perro = JSON.parse(data);
+
+                // Actualiza los campos de edición con los datos del perro
+                $('#raza_edit').val(perro.raza);
+                $('#puntos_edit').val(perro.puntos);
+                $('#edad_edit').val(perro.edad);
+
+                // Actualiza aquí los otros campos de edición
+                // ...
+            },
+            error: function () {
+                // Maneja errores aquí si es necesario
+                console.log('Error al cargar los detalles del perro.');
+            }
+        });
+    });
+</script>
+
 
 <script>
     //Funcion que muestra una opcion Si/No para borrar el perro

@@ -115,5 +115,18 @@ public class ExposicionPerros {
 
         guardarPerro(darPerros, context);
     }
+    
+    //Metodo para editar un Perro a partir de su nombre
+    public static void editarPerro(String nombre, String raza, String imagen, int puntos, int edad) {
+    for (Perro perro : darPerros) {
+        if (perro.getNombre().equals(nombre)) {
+            perro.setRaza(raza);
+            perro.setImagen(imagen);
+            perro.setPuntos(puntos);
+            perro.setEdad(edad);
+            break; // Terminamos el ciclo una vez que se haya encontrado y editado el perro
+        }
+    }
+}
 
 }

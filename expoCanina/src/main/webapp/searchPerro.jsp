@@ -35,10 +35,15 @@
                         Dropdown
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <%
+                            String ordenarPor = request.getParameter("ordenar");
+                            if (ordenarPor != null) {
+                                ExposicionPerros.ordenarYGuardarPerros(getServletContext(), ordenarPor);
+                            }
+                        %>
+                        <li><a class="dropdown-item" href="searchPerro.jsp?ordenar=nombre">Nombre</a></li>
+                        <li><a class="dropdown-item" href="searchPerro.jsp?ordenar=puntos">Puntos</a></li>
+                        <li><a class="dropdown-item" href="searchPerro.jsp?ordenar=edad">Edad</a></li>
                     </ul>
                 </li>
             </ul>
