@@ -62,7 +62,8 @@ public class SvPerro extends HttpServlet {
         // Guarda la lista actualizada de perros en el archivo.ser
         ServletContext servletContext = getServletContext();
         ExposicionPerros.guardarPerro(ExposicionPerros.darPerros, servletContext);
-
+        
+        
         //Ordenamiento de los perrso segun la opcion
         String ordenarCriterio = request.getParameter("ordenar");
 
@@ -96,16 +97,17 @@ public class SvPerro extends HttpServlet {
         String fileName = imagenPart.getSubmittedFileName();
         System.out.println("fileName: " + fileName);
 
-        // Directorio donde se almacenará el archivo
+        // Directorio donde se almacenara el archivo
         String uploadDirectory = getServletContext().getRealPath("imagenes");
         System.out.println("uploadDirectory: " + uploadDirectory);
 
-        // Ruta completa del archivo
+        //Ruta completa del archivo
         String filePath = uploadDirectory + File.separator + fileName;
         System.out.println("filePath: " + filePath);
 
-        // Guardar el archivo en el sistema de archivos
+        //Guardar el archivo en el sistemaa de archivos
         try (InputStream input = imagenPart.getInputStream(); OutputStream output = new FileOutputStream(filePath)) {
+
             byte[] buffer = new byte[1024];
             int length;
             while ((length = input.read(buffer)) > 0) {
@@ -125,48 +127,24 @@ public class SvPerro extends HttpServlet {
             int puntos = Integer.parseInt(puntosStr);
             int edad = Integer.parseInt(edadStr);
 
+            // Crear un Perro
+            Perro miPerro = new Perro(nombre, raza, imagen, puntos, edad);
+
             // Obtener la lista actual de perros
             ServletContext servletContext = getServletContext();
             ArrayList<Perro> misPerros = ExposicionPerros.cargarPerros(servletContext);
 
-            // Verificar si se proporciona un nombre válido (esto podría variar según tu lógica de negocio)
-            if (nombre != null && !nombre.isEmpty()) {
-                // Intentar encontrar el perro existente por nombre
-                Perro perroExistente = ExposicionPerros.buscarPerroPorNombre(nombre);
-                if (perroExistente != null) {
-                    // Editar el perro existente con los nuevos datos
-                    perroExistente.setRaza(raza);
-                    perroExistente.setImagen(imagen);
-                    perroExistente.setPuntos(puntos);
-                    perroExistente.setEdad(edad);
+            // Agregar el nuevo perro a la lista
+            misPerros.add(miPerro);
 
-                    // Guardar la lista actualizada de perros en el archivo.ser
-                    ExposicionPerros.guardarPerro(misPerros, servletContext);
+            // Guardar la lista actualizada de perros en el archivo.ser
+            ExposicionPerros.guardarPerro(misPerros, servletContext);
 
-                    // Redireccionar a la página web index.jsp u otra página según tu lógica
-                    response.sendRedirect("index.jsp");
-                    return;
-                } else {
-                    // Manejar el caso en el que no se encuentra el perro a editar
-                    response.setContentType("text/plain");
-                    response.getWriter().write("Perro no encontrado para editar");
-                }
-            } else {
-                // Crear un Perro si no se proporcionó un nombre válido (esto podría variar según tu lógica de negocio)
-                Perro miPerro = new Perro(nombre, raza, imagen, puntos, edad);
+            // Agregar la lista de perros al objeto de solicitud
+            request.setAttribute("misPerros", misPerros);
 
-                // Agregar el nuevo perro a la lista
-                misPerros.add(miPerro);
-
-                // Guardar la lista actualizada de perros en el archivo.ser
-                ExposicionPerros.guardarPerro(misPerros, servletContext);
-
-                // Agregar la lista de perros al objeto de solicitud
-                request.setAttribute("misPerros", misPerros);
-
-                // Redireccionar a la página web index.jsp u otra página según tu lógica
-                response.sendRedirect("index.jsp");
-            }
+            // Redireccionar a la página web agregarPerro
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             // Manejo de la excepción si los valores de puntos o edad no son números válidos
             e.printStackTrace();
