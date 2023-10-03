@@ -104,11 +104,11 @@
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
                             <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal"
-                               data-nombre="<%= perro.getNombre() %>"
-                               data-raza="<%= perro.getRaza() %>"
-                               data-imagen="<%= perro.getImagen() %>"
-                               data-puntos="<%= perro.getPuntos() %>"
-                               data-edad="<%= perro.getEdad() %>">
+                               data-nombre="<%= perro.getNombre()%>"
+                               data-raza="<%= perro.getRaza()%>"
+                               data-imagen="<%= perro.getImagen()%>"
+                               data-puntos="<%= perro.getPuntos()%>"
+                               data-edad="<%= perro.getEdad()%>">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
 
@@ -155,8 +155,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Editar Perro</h5>
+                
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <h6 class="modal-subtitle text-muted" id="exampleModalLabel">
+                    Nota: Seleccione la imagen que ya tenía previamente si desea editar otro dato distinto de la imagen, de lo contrario, el proceso no funcionará.
+                </h6>
             <div class="modal-body">
                 <form action="SvEditarPerro" method="POST" enctype="multipart/form-data">
                     <!-- Campo oculto para almacenar el nombre del perro -->
