@@ -14,7 +14,7 @@
 
 
 <!-- Empleamos una NavBar de Bootstrap para evitar interferencias de la imagen -->
-
+<!-- La Navbar se a movido a header.jsp con el fin de agilisar procesos -->
 
 <div class="container p-4"> <!-- clase contenedora -->
     <div class="row">
@@ -209,7 +209,8 @@
         </div>
     </div>
 </div>
-
+ 
+<!-- Funcion que pre-rellena los campos con los datos previamente almacenados -->
 
 <script>
     $('#editarModal').on('show.bs.modal', function (event) {
@@ -235,6 +236,7 @@
 </script>
 
 
+<!-- Funcion que permitira reconocer un perro por su nombre y No editarlo -->
 
 <script>
     $(document).ready(function () {

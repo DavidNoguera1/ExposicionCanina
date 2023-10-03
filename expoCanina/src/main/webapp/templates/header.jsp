@@ -47,8 +47,8 @@
                         </li>
                     </ul>
                     <<form class="d-flex" action="searchPerro.jsp" method="GET">
-                        <input class="form-control me-2" type="search" name="nombre" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        <input class="form-control me-2" type="search" name="nombre" placeholder="De el nombre de perro" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>
                 </div>
             </div>

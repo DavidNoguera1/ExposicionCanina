@@ -93,7 +93,7 @@ public class SvPerro extends HttpServlet {
             // Manejar el caso en el que no haya perros en la lista
             System.out.println("No hay perros en la lista.");
         }
-        
+
         // Obtener al perro con el mayor puntaje
         Perro perroMenorPuntaje = ExposicionPerros.obtenerPerroMenorPuntaje();
 
@@ -105,7 +105,7 @@ public class SvPerro extends HttpServlet {
             // Manejar el caso en el que no haya perros en la lista
             System.out.println("No hay perros en la lista.");
         }
-        
+
         // Obtiene el perro con mayor edad del concurso
         Perro perroMasViejo = ExposicionPerros.obtenerPerroMasViejo();
 
@@ -162,18 +162,35 @@ public class SvPerro extends HttpServlet {
             int puntos = Integer.parseInt(puntosStr);
             int edad = Integer.parseInt(edadStr);
 
-            // Crear un Perro
-            Perro miPerro = new Perro(nombre, raza, imagen, puntos, edad);
-
             // Obtener la lista actual de perros
             ServletContext servletContext = getServletContext();
             ArrayList<Perro> misPerros = ExposicionPerros.cargarPerros(servletContext);
 
-            // Agregar el nuevo perro a la lista
-            misPerros.add(miPerro);
+            // Verificar si el nombre ya existe en la lista
+            boolean nombreExistente = false;
+            for (Perro perro : misPerros) {
+                if (perro.getNombre().equalsIgnoreCase(nombre)) { // IgnoreCase para ser insensible a mayúsculas y minúsculas
+                    nombreExistente = true;
+                    break;
+                }
+            }
 
-            // Guardar la lista actualizada de perros en el archivo.ser
-            ExposicionPerros.guardarPerro(misPerros, servletContext);
+            if (!nombreExistente) {
+                // Crear un Perro solo si el nombre no existe en la lista
+                Perro miPerro = new Perro(nombre, raza, imagen, puntos, edad);
+
+                // Agregar el nuevo perro a la lista
+                misPerros.add(miPerro);
+
+                // Guardar la lista actualizada de perros en el archivo.ser
+                ExposicionPerros.guardarPerro(misPerros, servletContext);
+            } else {
+                // Si el nombre ya existe, enviar un mensaje de texto plano al cliente
+                response.setContentType("text/plain");
+                response.getWriter().write("Ya existe un perro con ese nombre, empleamos los nombres como identificadores unicos ,"
+                        + "por favor escoja otro nombre o un apodo que le permita identificar al Perro. Muchas Gracias");
+                return; // Detener la ejecución adicional
+            }
 
             // Agregar la lista de perros al objeto de solicitud
             request.setAttribute("misPerros", misPerros);

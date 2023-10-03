@@ -7,6 +7,9 @@ import java.util.Comparator;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 
+
+// Aqui se almacenaran los metodos/funciones que nos permitiran realizar diversas acciones
+
 public class ExposicionPerros {
 
     // Creamos la lista darPerros y la definimos 
@@ -58,9 +61,13 @@ public class ExposicionPerros {
 
     //Metodo para buscar un perro por nombre de lista
     public static Perro buscarPerroPorNombre(String nombre) {
+        // Convertir el nombre proporcionado a minúsculas (o mayúsculas)
+        String nombreBuscado = nombre.toLowerCase(); //Esto con el fin de evitar posibles complicaciones
+
         for (Perro perro : darPerros) {
-            if (perro.getNombre().equals(nombre)) {
-                return perro; // Retorna  el perro si se encuentra
+            // Convertir el nombre del perro actual a minúsculas (o mayúsculas) y comparar
+            if (perro.getNombre().toLowerCase().equals(nombreBuscado)) { // O .toUpperCase() si prefieres mayúsculas
+                return perro; // Retorna el perro si se encuentra
             }
         }
         return null; // Retorna null si no se encuentra el perro
