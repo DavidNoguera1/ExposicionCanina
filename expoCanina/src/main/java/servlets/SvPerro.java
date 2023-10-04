@@ -74,49 +74,53 @@ public class SvPerro extends HttpServlet {
                 ExposicionPerros.ordenarYGuardarPerros(getServletContext(), "puntos");
             } else if (ordenarCriterio.equals("edad")) {
                 ExposicionPerros.ordenarYGuardarPerros(getServletContext(), "edad");
+            } else if (ordenarCriterio.equals("raza")) {
+                ExposicionPerros.ordenarYGuardarPerros(getServletContext(), "raza");
             }
 
             // Redirecciona nuevamente a la página desde donde se hizo la solicitud
             String referer = request.getHeader("Referer");
-            response.sendRedirect(referer != null ? referer : "index.jsp");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
         }
 
         // Obtener al perro con el mayor puntaje
         Perro perroMayorPuntaje = ExposicionPerros.obtenerPerroMayorPuntaje();
 
+            // Obtener al perro con el menor puntaje
+        Perro perroMenorPuntaje = ExposicionPerros.obtenerPerroMenorPuntaje();
+
+        //Obtiene el perro con mayor edad del concurso
+        Perro perroMasViejo = ExposicionPerros.obtenerPerroMasViejo();
+
         if (perroMayorPuntaje != null) {
             // Hacer algo con el perro encontrado, por ejemplo, mostrar sus detalles
             System.out.println("Perro con el mayor puntaje: " + perroMayorPuntaje.getNombre() + " - Puntos: " + perroMayorPuntaje.getPuntos());
-            response.sendRedirect("ganador.jsp");
         } else {
             // Manejar el caso en el que no haya perros en la lista
             System.out.println("No hay perros en la lista.");
         }
-
-        // Obtener al perro con el mayor puntaje
-        Perro perroMenorPuntaje = ExposicionPerros.obtenerPerroMenorPuntaje();
 
         if (perroMenorPuntaje != null) {
             // Hacer algo con el perro encontrado, por ejemplo, mostrar sus detalles
-            System.out.println("Perro con el menor puntaje: " + perroMenorPuntaje.getNombre() + " - Puntos: " + perroMayorPuntaje.getPuntos());
-            response.sendRedirect("perdedor.jsp");
+            System.out.println("Perro con el menor puntaje: " + perroMenorPuntaje.getNombre() + " - Puntos: " + perroMenorPuntaje.getPuntos());
         } else {
             // Manejar el caso en el que no haya perros en la lista
             System.out.println("No hay perros en la lista.");
         }
-
-        // Obtiene el perro con mayor edad del concurso
-        Perro perroMasViejo = ExposicionPerros.obtenerPerroMasViejo();
 
         if (perroMasViejo != null) {
             // Hacer algo con el perro encontrado, por ejemplo, mostrar sus detalles
             System.out.println("Perro con la mayor edad es: " + perroMasViejo.getNombre() + " - Edad: " + perroMasViejo.getEdad());
-            response.sendRedirect("perroMasViejo.jsp");
         } else {
             // Manejar el caso en el que no haya perros en la lista
             System.out.println("No hay perros en la lista.");
         }
+
+        // Luego, puedes realizar las redirecciones aquí
+        response.sendRedirect("ganador.jsp");
+        response.sendRedirect("perdedor.jsp");
+        response.sendRedirect("perroMasViejo.jsp");
 
     }
 

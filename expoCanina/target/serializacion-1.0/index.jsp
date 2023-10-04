@@ -280,7 +280,7 @@
     //Funcion que muestra una opcion Si/No para borrar el perro
     function confirmarEliminacion(nombre) {
         // Muestra un cuadro de di?logo de confirmaci?n
-        if (confirm("?Est? seguro de querer eliminar este perro?")) {
+        if (confirm("¿Esta seguro de querer eliminar este perro?")) {
             // Si el usuario confirma, llama a la funci?n eliminarPerro
             eliminarPerro(nombre);
         }

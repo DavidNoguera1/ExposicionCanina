@@ -43,10 +43,11 @@
                                 <li><a class="dropdown-item" href="SvPerro?ordenar=nombre">Nombre</a></li>
                                 <li><a class="dropdown-item" href="SvPerro?ordenar=puntos">Puntos</a></li>
                                 <li><a class="dropdown-item" href="SvPerro?ordenar=edad">Edad</a></li>
+                                 <li><a class="dropdown-item" href="SvPerro?ordenar=raza">Raza</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <<form class="d-flex" action="searchPerro.jsp" method="GET">
+                    <form class="d-flex" action="searchPerro.jsp" method="GET">
                         <input class="form-control me-2" type="search" name="nombre" placeholder="De el nombre de perro" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>

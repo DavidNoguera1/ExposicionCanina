@@ -105,7 +105,13 @@ public class ExposicionPerros {
     public static void ordenarPorNombre() {
         darPerros.sort(Comparator.comparing(Perro::getNombre));
     }
-
+    
+    //Metodo para ordenar perro por Raza alfabeticamente
+    public static void ordenarPorRaza() {
+        darPerros.sort(Comparator.comparing(Perro::getRaza));
+    }
+    
+    
     //Metodo empleado para ordenar y guardar solo cuando se emplee una de las anteriores opciones
     public static void ordenarYGuardarPerros(ServletContext context, String criterio) throws IOException {
         if (criterio.equals("puntos")) {
@@ -114,6 +120,8 @@ public class ExposicionPerros {
             ordenarPorEdad();
         } else if (criterio.equals("nombre")) {
             ordenarPorNombre();
+        } else if (criterio.equals("raza")) {
+            ordenarPorRaza();
         }
 
         guardarPerro(darPerros, context);
