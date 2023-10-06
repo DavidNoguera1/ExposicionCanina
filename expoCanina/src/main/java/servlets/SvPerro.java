@@ -41,7 +41,7 @@ public class SvPerro extends HttpServlet {
 
             Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
             if (perro != null) {
-                // Genera la respuesta HTML con los detalles del perro encontrado
+                // Genera la respuesta HTML con los detalles del perro encontrado por nombre
                 String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>"
                         + "<p>Raza: " + perro.getRaza() + "</p>"
                         + "<p>Puntos: " + perro.getPuntos() + "</p>"
