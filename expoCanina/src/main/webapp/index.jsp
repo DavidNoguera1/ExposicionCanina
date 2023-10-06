@@ -229,7 +229,8 @@
         // Rellena otros campos del formulario de la misma manera
 
         // Actualiza la imagen del perro en el formulario (si lo deseas)
-        // Esto es opcional y depende de c?mo quieras mostrar la imagen
+        // Sin embargo, esta parece estar bloqueada por el mismo sistema
+        // Y se obtienen un excepcion o mensaje en los registros Output
 
         $('#imagen-perro-editar').attr('src', './imagenes/' + imagen);
     });

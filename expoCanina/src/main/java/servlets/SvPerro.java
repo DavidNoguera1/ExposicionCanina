@@ -34,8 +34,11 @@ public class SvPerro extends HttpServlet {
 
         String nombre = request.getParameter("nombre");
 
-        // Verifica si se ha proporcionado un nombre de perro en la solicitud
-        if (nombre != null && !nombre.isEmpty()) {
+         // Verifica si se ha proporcionado un nombre de perro en la solicitud
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            // Limpia los espacios en blanco al comienzo y al final del nombre
+            nombre = nombre.trim();
+
             Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
             if (perro != null) {
                 // Genera la respuesta HTML con los detalles del perro encontrado
@@ -49,10 +52,13 @@ public class SvPerro extends HttpServlet {
                 return; // Finaliza la ejecución del servlet después de mostrar los detalles del perro
             } else {
                 // Maneja el caso en el que no se encuentra el perro
-                // Maneja el caso en el que no se encuentra el perro
                 response.setContentType("text/plain");
                 response.getWriter().write("Perro no encontrado");
             }
+        } else {
+            // Maneja el caso en el que el nombre esté vacío después de la limpieza
+            response.setContentType("text/plain");
+            response.getWriter().write("Por favor, ingrese un nombre de perro válido");
         }
 
         //Eliminacion de un perro de la tabla

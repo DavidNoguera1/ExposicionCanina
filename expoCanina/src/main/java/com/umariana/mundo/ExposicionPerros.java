@@ -59,14 +59,20 @@ public class ExposicionPerros {
         return darPerros;
     }
 
-    //Metodo para buscar un perro por nombre de lista
+    // Método para buscar un perro por nombre de lista
     public static Perro buscarPerroPorNombre(String nombre) {
+        // Limpia los espacios en blanco al comienzo y al final del nombre
+        nombre = nombre.trim();
+
         // Convertir el nombre proporcionado a minúsculas (o mayúsculas)
-        String nombreBuscado = nombre.toLowerCase(); //Esto con el fin de evitar posibles complicaciones
+        String nombreBuscado = nombre.toLowerCase(); // Esto con el fin de evitar posibles complicaciones
 
         for (Perro perro : darPerros) {
+            // Limpia los espacios en blanco al comienzo y al final del nombre del perro actual
+            String nombrePerro = perro.getNombre().trim();
+
             // Convertir el nombre del perro actual a minúsculas (o mayúsculas) y comparar
-            if (perro.getNombre().toLowerCase().equals(nombreBuscado)) { // O .toUpperCase() si prefieres mayúsculas
+            if (nombrePerro.toLowerCase().equals(nombreBuscado)) { // O .toUpperCase() si prefieres mayúsculas
                 return perro; // Retorna el perro si se encuentra
             }
         }
